@@ -46,19 +46,10 @@ foreach ($words as $word) {
 
 	$x = simplexml_load_file($yql);
 
-	/*
-	$flickr = "http://static.flickr.com/";  
-	foreach($x->results->size as $p) {  
-		// $src = "$flickr{$p['server']}/{$p['id']}_{$p['secret']}_s.jpg";
-		// $src = $p['source'];
-		
-		$images[] = array("word" => $word, "url" => (string) $src);
-		break;
-	}
-	*/
 	foreach ($x->results->result as $p) {
 		$url = (string) $p->url;
-		// $url = "?imageProxy=true&url=" + urlencode($url);
+		if (!isset($_REQUEST['noProxy']))
+			$url = "?imageProxy=true&url=" + urlencode($url);
 		$images['urls'][] = $url;
 		$images['words'][] = (string) $word;
 	}
@@ -172,7 +163,7 @@ the end
 				</textarea>
 				<div class="controls">
 					<input type='submit' value="Reload Slideshow" />
-					Link to: <a id='wordslink'>these words</a> or <a id='imageslink'>these images</a>. Help: Any key = forward, left / up arrow = back, ctrl + arrows change picture, put (n) after query for nth entry.
+					Link to: <a id='wordslink'>these words</a> or <a id='imageslink'>these images</a>. Help: Any key = forward, left / up arrow = back, ctrl + arrows change picture, put (n) after query for nth entry. <a href='http://github.com/ptarjan/slidemonkey/'>Open Source</a>
 				</div>
 			</form>
 		</div>
